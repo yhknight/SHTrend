@@ -9,12 +9,14 @@ import org.dbunit.operation.DatabaseOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.annotations.BeforeMethod;
 
+import com.rex.springmvc.configuration.AppConfig;
 import com.rex.springmvc.configuration.HibernateTestConfiguration;
 
-
-@ContextConfiguration(classes = { HibernateTestConfiguration.class })
+@ContextConfiguration(classes = { HibernateTestConfiguration.class/*, AppConfig.class*/ })
+@WebAppConfiguration(/*value = "src/java/webapp"*/)
 public abstract class EntityDaoImplTest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@Autowired
@@ -22,11 +24,10 @@ public abstract class EntityDaoImplTest extends AbstractTransactionalTestNGSprin
 
 	@BeforeMethod
 	public void setUp() throws Exception {
-		IDatabaseConnection dbConn = new DatabaseDataSourceConnection(
-				dataSource);
+		IDatabaseConnection dbConn = new DatabaseDataSourceConnection(dataSource);
 		DatabaseOperation.CLEAN_INSERT.execute(dbConn, getDataSet());
 	}
-	
+
 	protected abstract IDataSet getDataSet() throws Exception;
 
 }

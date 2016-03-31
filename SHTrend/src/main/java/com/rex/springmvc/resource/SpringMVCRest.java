@@ -1,4 +1,4 @@
-package com.rex.springmvc.service.rest;
+package com.rex.springmvc.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +20,7 @@ public class SpringMVCRest {
 
 	@RequestMapping("/getEmployee/{id}")
 	public ResponseEntity<Employee> getEmployee(@PathVariable("id") int id) {
+		System.out.println("xxxxxxxxxxxxxxxx");
 		Employee emp = employeeService.findById(id);
 		HttpHeaders header = new HttpHeaders();
 		header.set("MyResponse", "hello");
@@ -30,17 +31,17 @@ public class SpringMVCRest {
 
 	}
 	
-//	@RequestMapping("/getEmployee/{id}")
-//	public Employee getEmployee(@PathVariable("id") int id) {
-//		Employee emp = employeeService.findById(id);
-//		HttpHeaders header = new HttpHeaders();
-//		header.set("MyResponse", "hello");
-//		// return ResponseEntity.created(location).header("MyResponseHeader",
-//		// "MyValue").body("Hello World");
-//		// return new ResponseEntity<Employee>(body, headers, statusCode)
-//		return emp;
-//
-//	}
+	@RequestMapping("/getEmployee1/{id}")
+	public Employee getEmployee1(@PathVariable("id") int id) {
+		Employee emp = employeeService.findById(id);
+		HttpHeaders header = new HttpHeaders();
+		header.set("MyResponse", "hello");
+		// return ResponseEntity.created(location).header("MyResponseHeader",
+		// "MyValue").body("Hello World");
+		// return new ResponseEntity<Employee>(body, headers, statusCode)
+		return emp;
+
+	}
 	
 	
 

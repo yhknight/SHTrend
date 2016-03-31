@@ -1,0 +1,66 @@
+package com.rex.springmvc.resource;
+
+import java.math.BigDecimal;
+
+import org.joda.time.LocalDate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.client.RestTemplate;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import com.rex.springmvc.configuration.HibernateTestConfiguration;
+import com.rex.springmvc.dao.EmployeeDao;
+import com.rex.springmvc.model.Employee;
+import com.rex.springmvc.server.EmbededWebServer;
+
+@ContextConfiguration(classes = { HibernateTestConfiguration.class })
+@WebAppConfiguration()
+public class RestClientTest extends AbstractTransactionalTestNGSpringContextTests {
+
+	EmbededWebServer ems = new EmbededWebServer();
+	RestTemplate tmp = new RestTemplate();
+	String baseURI = "http://localhost:8081/Rest";
+
+	@Autowired
+	EmployeeDao employeeDao;
+
+	@BeforeTest
+	public void startServer() throws Exception {
+		ems.startServer();
+
+	}
+
+	//
+	@AfterTest
+	public void stopServer() throws Exception {
+		ems.stopServer();
+
+	}
+
+	@Test
+	public void testFindEmployeeById() {
+		// ems.startServer();
+		Employee emp = new Employee();
+		emp.setName("Karen");
+		emp.setSsn("12345");
+		emp.setSalary(new BigDecimal(10980));
+		emp.setJoiningDate(new LocalDate());
+		employeeDao.saveEmployee(emp);
+
+		ResponseEntity<Employee> entity = tmp.getForEntity(baseURI + "/getEmployee1/{id}", Employee.class, 4);
+		Assert.assertEquals(entity.getStatusCode(), HttpStatus.OK);
+		// Assert.assertEquals(entity.getHeaders().getContentType(),
+		// MediaType.APPLICATION_JSON);
+		Assert.assertEquals(entity.getBody().getName().toUpperCase(), "TOM");
+
+	}
+
+}
