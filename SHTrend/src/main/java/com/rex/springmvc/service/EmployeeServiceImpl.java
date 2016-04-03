@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rex.springmvc.dao.EmployeeDao;
+import com.rex.springmvc.dao.IStudentDao;
+import com.rex.springmvc.dao.StudentAndTeachDTO;
 import com.rex.springmvc.model.Employee;
 
 @Service("employeeService")
@@ -15,6 +17,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeDao dao;
+	
+	@Autowired
+	private IStudentDao iStudentDao;
 	
 	public Employee findById(int id) {
 		return dao.findById(id);
@@ -54,6 +59,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public boolean isEmployeeSsnUnique(Integer id, String ssn) {
 		Employee employee = findEmployeeBySsn(ssn);
 		return ( employee == null || ((id != null) && (employee.getId() == id)));
+	}
+	
+public List<StudentAndTeachDTO> getStudentAndTeacher(int id){
+		
+		return iStudentDao.getStudentAndTeacher(id);
 	}
 	
 }
