@@ -4,12 +4,10 @@ import java.math.BigDecimal;
 
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.hibernate.criterion.Expression;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -23,7 +21,6 @@ import org.testng.annotations.Test;
 
 import com.rex.springmvc.model.Employee;
 import com.rex.springmvc.resource.SpringMVCRest;
-import com.rex.springmvc.server.EmbededWebServer;
 
 public class EmployeeDaoImplTest extends EntityDaoImplTest {
 
@@ -57,6 +54,7 @@ public class EmployeeDaoImplTest extends EntityDaoImplTest {
 	}
 
 	@Test
+	//@Rollback(true)
 	public void saveEmployee() {
 		employeeDao.saveEmployee(getSampleEmployee());
 		Assert.assertEquals(employeeDao.findAllEmployees().size(), 3);
