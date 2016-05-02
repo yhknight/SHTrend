@@ -68,7 +68,7 @@ public class SpringMVCRest {
 	@RequestMapping(value = {"/exceptionTest"},method = RequestMethod.GET)
 	public String ExceptionTestCase() throws Exception{
 		
-		throw new Exception("this is a runtime exception!!");
+		throw new Exception("999");
 		//return "exception test";
 		
 	}
