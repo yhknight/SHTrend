@@ -17,10 +17,10 @@ public class ExceptionMessage {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getM_boday() {
+	public String getM_body() {
 		return m_body;
 	}
-	public void setM_boday(String m_boday) {
+	public void setM_body(String m_boday) {
 		this.m_body = m_boday;
 	}
 
