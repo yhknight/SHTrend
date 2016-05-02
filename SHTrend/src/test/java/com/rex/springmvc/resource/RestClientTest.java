@@ -36,7 +36,15 @@ public class RestClientTest extends AbstractTransactionalTestNGSpringContextTest
 		ems.startServer();
 
 	}
-
+	@Test
+	//@Rollback(false)
+	public void prepareData() {
+		Employee emp = new Employee();
+		emp.setName("TOM");
+		emp.setSsn("12345");
+		emp.setSalary(new BigDecimal(10980));
+		emp.setJoiningDate(new LocalDate());
+	
 	//
 	@AfterTest
 	public void stopServer() throws Exception {

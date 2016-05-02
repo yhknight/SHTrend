@@ -23,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-@XmlRootElement
+//@XmlRootElement
 @Entity
 @Table(name="EMPLOYEE")
 @NamedQueries({@NamedQuery(name="employee.getInfo",query="select emp.id,emp.name  from Employee emp where emp.id=:id")})

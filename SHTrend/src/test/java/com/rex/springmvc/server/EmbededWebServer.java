@@ -22,7 +22,7 @@ public class EmbededWebServer  {
 		tomcat.setPort(port);
 		tomcat.setBaseDir(catalina_home);
 		tomcat.addWebapp(contextPath, docBase);
-		tomcat.start();
+		tomcat.start(); 
 		//tomcat.getServer().await();
 
 	}
