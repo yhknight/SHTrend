@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rex.springmvc.dao.StudentAndTeachDTO;
@@ -64,6 +63,14 @@ public class SpringMVCRest {
 	public List<StudentAndTeachDTO> getSt(@PathVariable int id) {
 		List<StudentAndTeachDTO> st = employeeService.getStudentAndTeacher(id);
 		return st;
+	}
+	
+	@RequestMapping(value = {"/exceptionTest"},method = RequestMethod.GET)
+	public String ExceptionTestCase() throws Exception{
+		
+		throw new Exception("this is a runtime exception!!");
+		//return "exception test";
+		
 	}
 
 	

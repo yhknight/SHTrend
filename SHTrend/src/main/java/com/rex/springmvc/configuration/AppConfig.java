@@ -29,6 +29,7 @@ public class AppConfig {
 	public MessageSource messageSource() {
 	    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 	    messageSource.setBasename("messages");
+	    messageSource.setDefaultEncoding("UTF8");
 	    return messageSource;
 	}
 }
