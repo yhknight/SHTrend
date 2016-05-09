@@ -29,7 +29,7 @@ public class springMVCException {
 	public ExceptionMessage exceptionHandler(HttpServletRequest req,HttpServletResponse rep,Exception ex) throws IOException{
 		
 		ExceptionMessage em = new ExceptionMessage();
-		em.setM_boday(messageSource.getMessage(ex.getMessage(), new String[]{"--error!!"}, req.getLocale()));
+		em.setM_body(messageSource.getMessage(ex.getMessage(), new String[]{"--error!!"}, req.getLocale()));
 		System.out.println(req.getLocale());
 		em.setId(Integer.valueOf(ex.getMessage()));
 		//rep.setCharacterEncoding("UTF-8");
