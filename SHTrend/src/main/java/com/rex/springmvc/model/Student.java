@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyToOne;
@@ -21,6 +22,7 @@ import org.hibernate.annotations.LazyToOneOption;
 
 @Entity
 @Table(name = "Student")
+@NamedQuery(name="s1",query="select s from Student s where s.cr.id=:id")
 public class Student {
 
 	private int id;
