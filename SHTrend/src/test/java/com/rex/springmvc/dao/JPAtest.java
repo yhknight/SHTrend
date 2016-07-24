@@ -2,15 +2,18 @@ package com.rex.springmvc.dao;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,6 +21,7 @@ import org.testng.annotations.Test;
 import com.rex.springmvc.configuration.HibernateTestConfiguration;
 import com.rex.springmvc.model.ClassRoom;
 import com.rex.springmvc.model.Student;
+import com.rex.springmvc.model.Teacher;
 
 @ContextConfiguration(classes = { HibernateTestConfiguration.class })
 @WebAppConfiguration()
@@ -26,6 +30,7 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@PersistenceContext
 	EntityManager em;
+	ClassRoom cr;
 
 	@BeforeMethod
 	public void Setup() {
@@ -35,11 +40,17 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@AfterMethod
 	public void Destroy() {
-
+		em.remove(cr);
 	}
 
 	@Test
-	@Rollback(false)
+	public void test2() {
+		List<Student> lt = em.createNamedQuery("s1", Student.class).setParameter("id", 2).getResultList();
+		Assert.assertEquals(lt.size(), 2);
+	}
+
+	@Test
+	//@Rollback(false)
 	public void test1() {
 
 		ClassRoom cr = new ClassRoom();
@@ -55,33 +66,39 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 		st.setName("aaaaaaaaaaa");
 		st.setCr(cr);
 		em.merge(st);
-		
+
 		Student sta = new Student();
 		sta.setName("bbbbbbbbbbbbbbb");
 		sta.setCr(cr);
-		//cr.setStudent(new HashSet<>(Arrays.asList(sta)));
+		// cr.setStudent(new HashSet<>(Arrays.asList(sta)));
 		em.merge(sta);
-//		//cr.setStudent(new HashSet<>(Arrays.asList(st)));
-//		
-//		em.merge(cr);
+		// //cr.setStudent(new HashSet<>(Arrays.asList(st)));
+		//
+		// em.merge(cr);
 	}
 
 	public void prepareData() {
 		Student st1 = new Student();
 		st1.setName("st1");
-		
+
 		Student st2 = new Student();
 		st2.setName("st2");
 
-		ClassRoom cr = new ClassRoom();
+		cr = new ClassRoom();
 		cr.setName("cr1");
-		//st1.setCr(cr);
+		// st1.setCr(cr);
 		Set<Student> se = new HashSet<>();
 		se.add(st1);
 		se.add(st2);
 		cr.setStudent(se);
 		// st1.setCr(cr1);
 		em.persist(cr);
+		
+		Teacher th1=new Teacher();
+		th1.setName("th1");
+		th1.getStudent().add(st1);
+		///st1.getTeachers().add(th1);
+		em.persist(th1);
 
 		// Student st2=new Student();
 		// st2.setName("st2");

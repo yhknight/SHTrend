@@ -14,13 +14,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Table
 @Entity
 public class Teacher {
 
 	private int id;
 	private String name;
-	private Set<Student> student= new HashSet<>();
+	private Set<Student> student = new HashSet<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +42,7 @@ public class Teacher {
 		this.name = name;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "teachers", fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	public Set<Student> getStudent() {
 		return student;
