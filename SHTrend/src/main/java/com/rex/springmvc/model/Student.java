@@ -16,13 +16,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 
 @Entity
 @Table(name = "Student")
-@NamedQuery(name="s1",query="select s from Student s where s.cr.id=:id")
+@NamedQuery(name = "s1", query = "select s from Student s where s.cr.id=:id")
 public class Student {
 
 	private int id;
@@ -49,8 +50,8 @@ public class Student {
 		this.name = name;
 	}
 
-	 @ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
-	 //@JoinColumn(name = "cr_id")
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinColumn(name = "cr_id")
 	public ClassRoom getCr() {
 		return cr;
 	}
@@ -59,7 +60,7 @@ public class Student {
 		this.cr = cr;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinTable(name = "teacher_student", joinColumns = { @JoinColumn(name = "student_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "teacher_id") })
 	public Set<Teacher> getTeachers() {
@@ -76,4 +77,16 @@ public class Student {
 		return this.getId() + "-" + this.getName();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Student)) {
+			return false;
+		}
+		Student student = (Student) obj;
+		if (student.getId() == this.getId()) {
+			return true;
+		}
+		return false;
+
+	}
 }

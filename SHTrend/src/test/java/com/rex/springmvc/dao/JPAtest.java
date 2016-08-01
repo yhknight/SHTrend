@@ -1,12 +1,9 @@
 package com.rex.springmvc.dao;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.test.annotation.Rollback;
@@ -32,25 +29,59 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 	EntityManager em;
 	ClassRoom cr;
 
-	@BeforeMethod
+	// @BeforeMethod
 	public void Setup() {
 		prepareData();
 
 	}
 
-	@AfterMethod
+	// @AfterMethod
 	public void Destroy() {
 		em.remove(cr);
 	}
 
+	// @Test
+	// @Rollback(false)
+	public void test3() {
+		// Student st = em.find(Student.class, 1);
+		// em.remove(st);
+		// ClassRoom cr = em.find(ClassRoom.class, 1);
+		// cr.getStudent().remove(st);
+		// em.persist(cr);
+		em.remove(cr);
+		Assert.assertEquals(em.createQuery("select c from ClassRoom c").getResultList().size(), 0);
+
+	}
+
 	@Test
+	@Rollback(false)
+	public void test5() {
+
+		Student st = em.find(Student.class, 1);
+		// cr = em.find(ClassRoom.class, 1);
+		// cr.getStudent().remove(st);
+		// st.setCr(null);
+		em.remove(st);
+		// em.persist(cr);
+		Student st1 = em.find(Student.class, 1);
+		Assert.assertEquals(st1,null);
+		// cr= em.find(ClassRoom.class, 1);
+	}
+
+	@Test
+	@Rollback(false)
+	public void test4() {
+		prepareData();
+	}
+
+	// @Test
 	public void test2() {
 		List<Student> lt = em.createNamedQuery("s1", Student.class).setParameter("id", 2).getResultList();
 		Assert.assertEquals(lt.size(), 2);
 	}
 
-	@Test
-	//@Rollback(false)
+	// @Test
+	// @Rollback(false)
 	public void test1() {
 
 		ClassRoom cr = new ClassRoom();
@@ -78,6 +109,7 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 	}
 
 	public void prepareData() {
+
 		Student st1 = new Student();
 		st1.setName("st1");
 
@@ -86,18 +118,39 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 
 		cr = new ClassRoom();
 		cr.setName("cr1");
-		// st1.setCr(cr);
-		Set<Student> se = new HashSet<>();
+
+		st1.setCr(cr);
+		st2.setCr(cr);
+
+		List<Student> se = new ArrayList<>();
 		se.add(st1);
 		se.add(st2);
+
 		cr.setStudent(se);
-		// st1.setCr(cr1);
 		em.persist(cr);
-		
-		Teacher th1=new Teacher();
+		// em.persist(st1);
+		// em.persist(st2);
+
+		// Student st1 = new Student();
+		// st1.setName("st1");
+		//
+		// Student st2 = new Student();
+		// st2.setName("st2");
+		//
+		// cr = new ClassRoom();
+		// cr.setName("cr1");
+		// // st1.setCr(cr);
+		// List<Student> se = new ArrayList<>();
+		// se.add(st1);
+		// se.add(st2);
+		// cr.setStudent(se);
+		// // st1.setCr(cr1);
+		// em.persist(cr);
+		//
+		Teacher th1 = new Teacher();
 		th1.setName("th1");
 		th1.getStudent().add(st1);
-		///st1.getTeachers().add(th1);
+		st1.getTeachers().add(th1);
 		em.persist(th1);
 
 		// Student st2=new Student();

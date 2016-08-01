@@ -1,6 +1,7 @@
 package com.rex.springmvc.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +23,7 @@ public class ClassRoom {
 
 	private int id;
 	private String name;
-	private Set<Student> student = new HashSet<>();
+	private List<Student> student = new ArrayList();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,14 +44,14 @@ public class ClassRoom {
 		this.name = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="cr_id")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy="cr")
+	//@JoinColumn(name="cr_id")
 	@JsonIgnore
-	public Set<Student> getStudent() {
+	public List<Student> getStudent() {
 		return student;
 	}
 
-	public void setStudent(Set<Student> student) {
+	public void setStudent(List<Student> student) {
 		this.student = student;
 	}
 
