@@ -22,7 +22,7 @@ import com.rex.springmvc.model.Teacher;
 
 @ContextConfiguration(classes = { HibernateTestConfiguration.class })
 @WebAppConfiguration()
-@org.springframework.transaction.annotation.Transactional
+//@org.springframework.transaction.annotation.Transactional
 public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@PersistenceContext
@@ -74,23 +74,21 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 		cr = em.find(ClassRoom.class, 1);
 		cr.getStudent().add(st1);
 		//em.merge(cr);
-		
-		cr.getStudent().remove(st);
-		em.merge(cr);
-		em.remove(st);
+		Student st2 = em.find(Student.class, 2);
+		cr.getStudent().remove(st2);
+		//em.merge(cr);
+		em.remove(st2);
 	}
 
 	@Test
-	//@Rollback(false)
+	@Rollback(false)
 	public void test5() {
 		
 		
 		//多对多:级联删除学生 老师
 //		Student st1 = em.find(Student.class, 1);
 //		em.remove(st1);
-//		Teacher th1=em.find(Teacher.class, 1);
-//		st1.getTeachers().remove(th1);
-		//em.merge(th1);
+
 		
 		//多对多:只删除中间表绑定关系
 //		Student st1 = em.find(Student.class, 1);
