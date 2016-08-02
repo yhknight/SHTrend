@@ -52,19 +52,70 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 		Assert.assertEquals(em.createQuery("select c from ClassRoom c").getResultList().size(), 0);
 
 	}
-
+	
+	@Test
+	public void test6(){
+		List<Object> ls=em.createNamedQuery("s1").setParameter("id", 1).getResultList();
+		List<Object> ls1=em.createNamedQuery("s2").setParameter("id", 1).getResultList();
+		ls.size();
+		
+	}
+	
 	@Test
 	@Rollback(false)
-	public void test5() {
-
+	public void test7(){
+		
+		//单向关联增删改查
 		Student st = em.find(Student.class, 1);
+		st.setName("dachui");
+		
+		Student st1 = new Student();
+		st1.setName("xiaofeng");
+		cr = em.find(ClassRoom.class, 1);
+		cr.getStudent().add(st1);
+		//em.merge(cr);
+		
+		cr.getStudent().remove(st);
+		em.merge(cr);
+		em.remove(st);
+	}
+
+	@Test
+	//@Rollback(false)
+	public void test5() {
+		
+		
+		//多对多:级联删除学生 老师
+//		Student st1 = em.find(Student.class, 1);
+//		em.remove(st1);
+//		Teacher th1=em.find(Teacher.class, 1);
+//		st1.getTeachers().remove(th1);
+		//em.merge(th1);
+		
+		//多对多:只删除中间表绑定关系
+//		Student st1 = em.find(Student.class, 1);
+//		Teacher th1=em.find(Teacher.class, 1);
+//		st1.getTeachers().remove(th1);
+		
+	
+		
+//		st.setName("dachui");
+//		
+//		Student st1 = new Student();
+//		st1.setName("xiaofeng");
+//		cr = em.find(ClassRoom.class, 1);
+//		cr.getStudent().add(st1);
+//		em.persist(st);
+//		
+//		st = em.find(Student.class, 1);
+//		em.remove(st);
 		// cr = em.find(ClassRoom.class, 1);
 		// cr.getStudent().remove(st);
 		// st.setCr(null);
-		em.remove(st);
+		//em.remove(st);
 		// em.persist(cr);
-		Student st1 = em.find(Student.class, 1);
-		Assert.assertEquals(st1,null);
+		//Student st1 = em.find(Student.class, 1);
+		//.assertEquals(st1,null);
 		// cr= em.find(ClassRoom.class, 1);
 	}
 
@@ -80,33 +131,7 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 		Assert.assertEquals(lt.size(), 2);
 	}
 
-	// @Test
-	// @Rollback(false)
-	public void test1() {
 
-		ClassRoom cr = new ClassRoom();
-		cr = em.find(ClassRoom.class, 1);
-
-		Student student = em.find(Student.class, 1);
-		student.setName("xxxxxxxxxxxx");
-		cr.setName("aaaaaa");
-		student.setCr(cr);
-		em.merge(student);
-
-		Student st = new Student();
-		st.setName("aaaaaaaaaaa");
-		st.setCr(cr);
-		em.merge(st);
-
-		Student sta = new Student();
-		sta.setName("bbbbbbbbbbbbbbb");
-		sta.setCr(cr);
-		// cr.setStudent(new HashSet<>(Arrays.asList(sta)));
-		em.merge(sta);
-		// //cr.setStudent(new HashSet<>(Arrays.asList(st)));
-		//
-		// em.merge(cr);
-	}
 
 	public void prepareData() {
 
@@ -115,12 +140,14 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 
 		Student st2 = new Student();
 		st2.setName("st2");
+		
+		Teacher th1 = new Teacher();
+		th1.setName("th1");
+		//th1.getStudent().add(st1);
+		st1.getTeachers().add(th1);
 
 		cr = new ClassRoom();
 		cr.setName("cr1");
-
-		st1.setCr(cr);
-		st2.setCr(cr);
 
 		List<Student> se = new ArrayList<>();
 		se.add(st1);
@@ -147,11 +174,11 @@ public class JPAtest extends AbstractTransactionalTestNGSpringContextTests {
 		// // st1.setCr(cr1);
 		// em.persist(cr);
 		//
-		Teacher th1 = new Teacher();
-		th1.setName("th1");
-		th1.getStudent().add(st1);
-		st1.getTeachers().add(th1);
-		em.persist(th1);
+//		Teacher th1 = new Teacher();
+//		th1.setName("th1");
+//		th1.getStudent().add(st1);
+		//st1.getTeachers().add(th1);
+		//em.persist(th1);
 
 		// Student st2=new Student();
 		// st2.setName("st2");

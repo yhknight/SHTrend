@@ -44,8 +44,8 @@ public class ClassRoom {
 		this.name = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy="cr")
-	//@JoinColumn(name="cr_id")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="cr_id")
 	@JsonIgnore
 	public List<Student> getStudent() {
 		return student;

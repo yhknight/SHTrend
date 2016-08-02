@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -23,12 +24,14 @@ import org.hibernate.annotations.LazyToOneOption;
 
 @Entity
 @Table(name = "Student")
-@NamedQuery(name = "s1", query = "select s from Student s where s.cr.id=:id")
+@NamedQueries({ @NamedQuery(name = "s1", query = "select c from ClassRoom c JOIN c.student where c.id=:id"),
+		@NamedQuery(name = "s2", query = "select c.student from ClassRoom c where c.id=:id") })
+
 public class Student {
 
 	private int id;
 	private String name;
-	private ClassRoom cr;
+	// private ClassRoom cr;
 	private Set<Teacher> teachers = new HashSet<Teacher>();
 
 	@Id
@@ -50,17 +53,17 @@ public class Student {
 		this.name = name;
 	}
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JoinColumn(name = "cr_id")
-	public ClassRoom getCr() {
-		return cr;
-	}
+	// @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	// @JoinColumn(name = "cr_id")
+	// public ClassRoom getCr() {
+	// return cr;
+	// }
+	//
+	// public void setCr(ClassRoom cr) {
+	// this.cr = cr;
+	// }
 
-	public void setCr(ClassRoom cr) {
-		this.cr = cr;
-	}
-
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "teacher_student", joinColumns = { @JoinColumn(name = "student_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "teacher_id") })
 	public Set<Teacher> getTeachers() {
