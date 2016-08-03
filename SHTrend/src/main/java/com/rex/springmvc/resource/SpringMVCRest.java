@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rex.springmvc.dao.StudentAndTeachDTO;
 import com.rex.springmvc.model.Employee;
 import com.rex.springmvc.service.EmployeeService;
 
@@ -59,11 +58,11 @@ public class SpringMVCRest {
 
 	}
 	
-	@RequestMapping(value = { "/getST/{id}" }, method = RequestMethod.GET)
+/*	@RequestMapping(value = { "/getST/{id}" }, method = RequestMethod.GET)
 	public List<StudentAndTeachDTO> getSt(@PathVariable int id) {
 		List<StudentAndTeachDTO> st = employeeService.getStudentAndTeacher(id);
 		return st;
-	}
+	}*/
 	
 	@RequestMapping(value = {"/exceptionTest"},method = RequestMethod.GET)
 	public String ExceptionTestCase() throws Exception{

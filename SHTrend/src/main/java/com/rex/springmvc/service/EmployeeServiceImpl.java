@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rex.springmvc.dao.EmployeeDao;
-import com.rex.springmvc.dao.IStudentDao;
-import com.rex.springmvc.dao.StudentAndTeachDTO;
 import com.rex.springmvc.model.Employee;
 
 @Service("employeeService")
@@ -19,7 +17,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeDao dao;
 	
 	@Autowired
-	private IStudentDao iStudentDao;
+//	private IStudentDao iStudentDao;
 	
 	public Employee findById(int id) {
 		return dao.findById(id);
@@ -61,9 +59,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return ( employee == null || ((id != null) && (employee.getId() == id)));
 	}
 	
-public List<StudentAndTeachDTO> getStudentAndTeacher(int id){
+/*public List<StudentAndTeachDTO> getStudentAndTeacher(int id){
 		
 		return iStudentDao.getStudentAndTeacher(id);
-	}
+	}*/
 	
 }

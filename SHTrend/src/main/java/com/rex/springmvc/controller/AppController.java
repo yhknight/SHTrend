@@ -14,9 +14,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rex.springmvc.dao.StudentAndTeachDTO;
 import com.rex.springmvc.model.Employee;
 import com.rex.springmvc.service.EmployeeService;
 

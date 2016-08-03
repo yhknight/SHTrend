@@ -2,7 +2,6 @@ package com.rex.springmvc.service;
 
 import java.util.List;
 
-import com.rex.springmvc.dao.StudentAndTeachDTO;
 import com.rex.springmvc.model.Employee;
 
 public interface EmployeeService {
@@ -21,6 +20,6 @@ public interface EmployeeService {
 
 	boolean isEmployeeSsnUnique(Integer id, String ssn);
 	
-	public List<StudentAndTeachDTO> getStudentAndTeacher(int id);
+//	public List<StudentAndTeachDTO> getStudentAndTeacher(int id);
 	
 }
