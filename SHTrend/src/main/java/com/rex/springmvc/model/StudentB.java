@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "StudentB")
-@NamedQuery(name = "s2", query = "select s from StudentB s where s.cr.id=:id")
+@NamedQuery(name = "s3", query = "select s from StudentB s where s.cr.id=:id")
 public class StudentB {
 
 	private int id;

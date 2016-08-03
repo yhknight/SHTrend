@@ -54,14 +54,18 @@ public class JPAtestBidirectional extends AbstractTransactionalTestNGSpringConte
 	@Test
 	@Rollback(false)
 	public void test5() {
+		//delete entity directly
+		//StudentB st = em.find(StudentB.class, 1);
+		//em.remove(st);
 
+		//delete entity from parent entity 
 		ClassRoomB cr = new ClassRoomB();
 		cr = em.find(ClassRoomB.class, 1);
 		//em.setFlushMode(FlushModeType.AUTO);
 		StudentB st = em.find(StudentB.class, 1);
 		st.setName("!!!!!!");
 		cr.getStudent().remove(st);
-		em.flush();
+		//em.flush();
 		// cr.setName("~~~~~~");
 		// em.merge(cr);
 		// em.remove(cr);
@@ -70,8 +74,8 @@ public class JPAtestBidirectional extends AbstractTransactionalTestNGSpringConte
 		// st.setCr(null);
 		// em.remove(st);
 		// em.persist(cr);
-		StudentB st1 = em.find(StudentB.class, 1);
-		Assert.assertEquals(st1, null);
+		//StudentB st1 = em.find(StudentB.class, 1);
+		//Assert.assertEquals(st1, null);
 		// cr= em.find(ClassRoom.class, 1);
 	}
 
@@ -92,7 +96,7 @@ public class JPAtestBidirectional extends AbstractTransactionalTestNGSpringConte
 
 	// @Test
 	public void test2() {
-		List<StudentB> lt = em.createNamedQuery("s2", StudentB.class).setParameter("id", 2).getResultList();
+		List<StudentB> lt = em.createNamedQuery("s3", StudentB.class).setParameter("id", 2).getResultList();
 		Assert.assertEquals(lt.size(), 2);
 	}
 

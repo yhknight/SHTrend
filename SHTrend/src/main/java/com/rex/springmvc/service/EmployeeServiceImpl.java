@@ -16,7 +16,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeDao dao;
 	
-	@Autowired
+	//@Autowired
 //	private IStudentDao iStudentDao;
 	
 	public Employee findById(int id) {
