@@ -3,9 +3,11 @@ package com.rex.springmvc.controller;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,25 +21,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rex.springmvc.dao.StudentAndTeachDTO;
 import com.rex.springmvc.model.Employee;
 import com.rex.springmvc.service.EmployeeService;
+import com.rex.springmvc.service.EmployeeServiceImpl;
 
 @Controller
 @RequestMapping("/")
 public class AppController {
 
+	//private final Object o1;
 	@Autowired
 	EmployeeService service;
+	/*@Autowired  //如果要对类而非接口直接进行注入，必须要开启proxy-target-class="true" 或@Scope(proxyMode=ScopedProxyMode.TARGET_CLASS)
+	@Qualifier("employeeService")
+	EmployeeServiceImpl emp;*/
 	
 	@Autowired
 	MessageSource messageSource;
 
+//	public AppController() {
+//		o1=new String();
+//		// TODO Auto-generated constructor stub
+//	}
 	/*
 	 * This method will list all existing employees.
 	 */
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	public String listEmployees(ModelMap model) {
+	public String listEmployees(ModelMap model,HttpSession session) {
 
 		List<Employee> employees = service.findAllEmployees();
 		model.addAttribute("employees", employees);
+		//模拟登陆成功后给session登陆成功标识赋值
+		session.setAttribute("isLogin", true);
 		return "allemployees";
 	}
 
